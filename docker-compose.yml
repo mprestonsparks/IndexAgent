@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  zoekt-indexserver:
+    image: sourcegraph/zoekt-indexserver:latest
+    container_name: zoekt-indexserver
+    ports:
+      - "6070:6070"  # Zoekt API
+    # IDX_CLAUDE_API_KEY will be injected as a Docker secret or environment variable
+    # Caddy basic-auth credentials can be injected here if needed for reverse proxy
+    volumes:
+      - ${HOME}/repos:/repos
+    restart: unless-stopped
+
+  sourcebot:
+    image: ghcr.io/sourcebot-dev/sourcebot:latest
+    container_name: sourcebot
+    ports:
+      - "3000:3000"  # Sourcebot UI
+    # IDX_CLAUDE_API_KEY will be injected as a Docker secret or environment variable
+    # Caddy basic-auth credentials can be injected here if needed for reverse proxy
+    volumes:
+      - ${HOME}/repos:/repos
+    restart: unless-stopped
+
+  maintenance:
+    image: python:3.11-slim
+    container_name: maintenance
+    command: ["sleep", "infinity"]
+    volumes:
+      - ${HOME}/repos:/repos:ro
+      - baseline_logs:/app/logs/baseline_issues
+    restart: unless-stopped
+
+volumes:
+  baseline_logs:
