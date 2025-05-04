@@ -95,7 +95,7 @@ Commit/PR ──> Git platform
    * Zoekt `main` (Apache‑2.0)
    * Sourcebot `ghcr.io/sourcebot-dev/sourcebot:latest` (MIT)
    * Claude Code CLI `@anthropic-ai/claude-cli` beta
-   * Apache Airflow 2.9.2 (in `airflow-hub`)
+   * Apache Airflow 3.0 (in `airflow-hub`)
    * pytest 8 + pytest‑cov
 
 2. **Licensing** — All runtime components FOSS & self‑hosted.
@@ -237,8 +237,7 @@ done
 
 ## 9  Phase 4  Doc Refresh (Complete Plan)
 
-| Objective | Generate GitBook markdown for undocumented modules, integrate via `git-books` repo |
-| --------- | ---------------------------------------------------------------------------------- |
+| Objective | Generate markdown for undocumented modules |
 
 ### Tasks
 
@@ -250,26 +249,18 @@ done
 2. **Doc generation** (`scripts/agent_write_docs.sh`, IndexAgent)
 
    ```bash
-   claude -m "Write a GitBook‑compatible markdown page for module {{module}}: overview, API table, usage examples." \
+   claude -m "Write a markdown page for module {{module}}: overview, API table, usage examples." \
           --outfile "docs/auto/{{module}}.md"
    markdownlint -f "docs/auto/{{module}}.md"
    ```
 
-   * Add GitBook front‑matter.
-
-3. **Integration**
-
-   * Clone/update `git-books` repo within IndexAgent container volume.
-   * Copy generated docs into `git-books/docs/auto`.
-   * Commit on branch `ai/docs-YYYY-MM-DD` and push.
-
-4. **DAG** (`nightly_doc_refresh.py`, in `airflow-hub`)
+3. **DAG** (`nightly_doc_refresh.py`, in `airflow-hub`)
 
    ```
-   reindex -> scan_undoc -> generate_docs -> push_branch -> trigger_gitbook_build
+   reindex -> scan_undoc -> generate_docs
    ```
 
-5. **Metrics**
+4. **Metrics**
 
    * Maintain Prometheus gauge `docs_coverage`.
    * Success when ≥ 90 % or nightly delta ≥ 5 newly documented modules until saturated.
@@ -277,7 +268,6 @@ done
 ### Success Criteria
 
 * [ ] Markdown lints clean.
-* [ ] GitBook build passes.
 * [ ] `docs_coverage` trending positive.
 
 ---

@@ -1,0 +1,1 @@
+# Stub to override incompatible pytest_asyncio plugin

@@ -1,0 +1,38 @@
+[
+    {
+        "file": "./baseline_audit.py",
+        "line": 1,
+        "type": "Module",
+        "name": "<module>"
+    },
+    {
+        "file": "./baseline_audit.py",
+        "line": 21,
+        "type": "FunctionDef",
+        "name": "collate_reports"
+    },
+    {
+        "file": "./scripts/find_undocumented.py",
+        "line": 1,
+        "type": "Module",
+        "name": "<module>"
+    },
+    {
+        "file": "./scripts/find_undocumented.py",
+        "line": 5,
+        "type": "FunctionDef",
+        "name": "find_undocumented_modules"
+    },
+    {
+        "file": "./scripts/run_cov.py",
+        "line": 1,
+        "type": "Module",
+        "name": "<module>"
+    },
+    {
+        "file": "./scripts/run_cov.py",
+        "line": 4,
+        "type": "FunctionDef",
+        "name": "run_tests"
+    }
+]
