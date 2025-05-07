@@ -1,6 +1,6 @@
 # IndexAgent
 
-**IndexAgent** is a Free and Open Source Software (FOSS) stack for self-hosted, large-scale code search and indexing. Designed for privacy, extensibility, and developer autonomy, IndexAgent empowers organizations and individuals to run their own code search infrastructure—**no vendor lock-in, no cloud dependencies**. IndexAgent can integrate with Apache Airflow for orchestrating maintenance workflows but does not include any DAG definitions within this repository.
+**IndexAgent** is a Docker-first, Free and Open Source Software (FOSS) stack for self-hosted, large-scale code search and indexing. Designed for privacy, extensibility, and developer autonomy, IndexAgent empowers organizations and individuals to run their own code search infrastructure—**no vendor lock-in, no cloud dependencies**. IndexAgent can integrate with Apache Airflow for orchestrating maintenance workflows but does not include any DAG definitions within this repository.
 
 ---
 
@@ -13,13 +13,13 @@
 
 ## Introduction
 
-IndexAgent uniquely integrates [Sourcebot](https://github.com/sourcebot-dev/sourcebot) for code discovery and syncing, [Zoekt](https://github.com/sourcegraph/zoekt) for high-performance indexing and search, and the [Claude Code CLI](https://www.npmjs.com/package/@anthropic-ai/claude-cli) for automated maintenance tasks. As a self-hosted FOSS platform, it provides a privacy-focused, extensible code infrastructure—empowering full autonomy without vendor lock-in.
+IndexAgent uniquely integrates [Sourcebot](https://github.com/sourcebot-dev/sourcebot) for code discovery and syncing, [Zoekt](https://github.com/sourcegraph/zoekt) for high-performance indexing and search, and the [Claude Code CLI](https://www.npmjs.com/package/@anthropic-ai/claude-cli) for automated maintenance tasks. Built with a Docker-first approach, all components run in containers for consistent deployment across environments. As a self-hosted FOSS platform, it provides a privacy-focused, extensible code infrastructure—empowering full autonomy without vendor lock-in.
 
 Routine maintenance workflows (TODO cleanup, documentation generation, coverage loops) are orchestrated via [Apache Airflow 3.0](https://airflow.apache.org/docs/apache-airflow/stable/index.html) DAGs in the companion [airflow-hub](https://github.com/mprestonsparks/airflow-hub) repository. Sourcebot ensures code is current, Zoekt powers sub-100 ms search across mounted repositories, and the Claude Code CLI applies intelligent patches—together realizing an autonomous, scalable maintenance ecosystem.
 
 ### Airflow Integration
 
-IndexAgent works seamlessly with Preston Sparks’s [airflow-hub](https://github.com/mprestonsparks/airflow-hub) to schedule maintenance DAGs but can also run standalone or integrate with any Airflow 3.0 deployment.
+IndexAgent works seamlessly with Preston's [airflow-hub](https://github.com/mprestonsparks/airflow-hub) to schedule maintenance DAGs but can also run standalone or integrate with any Airflow 3.0 deployment.
 
 ### Automated Maintenance Scripts
 
@@ -52,6 +52,16 @@ IndexAgent works seamlessly with Preston Sparks’s [airflow-hub](https://github
 - [Docker](https://www.docker.com/get-started)  
 - [Docker Compose](https://docs.docker.com/compose/)  
 - [GNU Make](https://www.gnu.org/software/make/) (optional)
+
+### Docker Architecture
+
+IndexAgent follows a Docker-first approach with three primary containers:
+
+1. **zoekt-indexserver**: Handles code indexing and search capabilities
+2. **sourcebot**: Manages code discovery and repository syncing
+3. **indexagent**: Runs maintenance scripts and Claude Code CLI operations
+
+All containers mount the same code repositories from `$HOME/repos` on the host, ensuring consistent access across the stack. For detailed Docker implementation information, see our [Docker documentation](docs/docker.md).
 
 ### Setup & Usage
 
