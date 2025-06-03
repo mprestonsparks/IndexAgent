@@ -1,0 +1,1 @@
+"""IndexAgent - Automated maintenance and documentation for Python projects."""

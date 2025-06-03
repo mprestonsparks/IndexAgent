@@ -1,0 +1,21 @@
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-airflow>=0.2.0
+coverage>=7.3.0
+
+# Code formatting
+black>=23.7.0
+
+# Linting
+ruff>=0.1.0
+
+# Type checking
+mypy>=1.5.0
+
+# Task runner
+invoke>=2.2.0
+
+# Additional testing utilities
+pytest-asyncio>=0.21.0
+pytest-mock>=3.11.0

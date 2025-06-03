@@ -1,6 +1,18 @@
 # IndexAgent
 
+![CI](https://github.com/mprestonsparks/IndexAgent/workflows/CI/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/mprestonsparks/IndexAgent/badge.svg?branch=main)](https://coveralls.io/github/mprestonsparks/IndexAgent?branch=main)
+
 **IndexAgent** is a Docker-first, Free and Open Source Software (FOSS) stack for self-hosted, large-scale code search and indexing. Designed for privacy, extensibility, and developer autonomy, IndexAgent empowers organizations and individuals to run their own code search infrastructure—**no vendor lock-in, no cloud dependencies**. IndexAgent can integrate with Apache Airflow for orchestrating maintenance workflows but does not include any DAG definitions within this repository.
+
+## CI/CD Process
+
+This project uses GitHub Actions for continuous integration and deployment:
+- **Matrix Testing**: Automated tests run on Python 3.10 and 3.11
+- **Quality Gates**: Code must pass black formatting, ruff linting, mypy type checking, and maintain ≥90% test coverage
+- **Integration Tests**: Comprehensive integration testing suite runs separately from unit tests
+- **Dependency Management**: Automated dependency updates via Dependabot
+- **Efficient Caching**: Dependencies are cached for faster CI runs
 
 ---
 

@@ -1,0 +1,4 @@
+# Invoke configuration
+tasks:
+  auto_dash_names: true
+  collection_name: tasks

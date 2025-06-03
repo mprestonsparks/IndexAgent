@@ -3,6 +3,9 @@ FROM python:3.11-slim
 
 WORKDIR /app
 ENV PYTHONPATH=/app
+ARG INDEXAGENT_API_PORT
+ENV INDEXAGENT_API_PORT=${INDEXAGENT_API_PORT}
+EXPOSE ${INDEXAGENT_API_PORT}
 
 # Copy the source code and test directories
 COPY src /app/src

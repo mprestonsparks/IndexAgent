@@ -2,10 +2,13 @@ version: "3.8"
 
 services:
   zoekt-indexserver:
-    image: sourcegraph/zoekt-indexserver:latest
+    build:
+      context: ../../airflow-hub
+      dockerfile: docker/Dockerfile.airflow
     container_name: zoekt-indexserver
+    platform: "${DOCKER_DEFAULT_PLATFORM}"
     ports:
-      - "6070:6070"  # Zoekt API
+      - "${ZOEKT_UI_PORT}:6070"
     # IDX_CLAUDE_API_KEY will be injected as a Docker secret or environment variable
     # Caddy basic-auth credentials can be injected here if needed for reverse proxy
     volumes:
@@ -13,10 +16,12 @@ services:
     restart: unless-stopped
 
   sourcebot:
-    image: ghcr.io/sourcebot-dev/sourcebot:latest
+    build:
+      context: .
     container_name: sourcebot
+    platform: "${DOCKER_DEFAULT_PLATFORM}"
     ports:
-      - "3000:3000"  # Sourcebot UI
+      - "${SOURCEBOT_UI_PORT}:3000"  # Sourcebot UI
     # IDX_CLAUDE_API_KEY will be injected as a Docker secret or environment variable
     # Caddy basic-auth credentials can be injected here if needed for reverse proxy
     
@@ -25,10 +30,12 @@ services:
     restart: unless-stopped
 
   indexagent:
-    image: indexagent:latest
+    build:
+      context: ../../IndexAgent
     container_name: indexagent
+    platform: "${DOCKER_DEFAULT_PLATFORM}"
     ports:
-      - "8080:8080"  # Expose the IndexAgent API
+      - "${INDEXAGENT_API_PORT}:8080"  # Expose the IndexAgent API
     environment:
       - CONFIG_PATH=/path/to/config.yaml
       - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-3-opus-2025-05-02}
