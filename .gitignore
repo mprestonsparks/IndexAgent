@@ -172,3 +172,19 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Dev Container and VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.devcontainer/.env
+.devcontainer/docker-compose.override.yml
+*.tmp
+*.temp
+
+# Development environment files
+.env.dev
+.env.local
+.env.*.local

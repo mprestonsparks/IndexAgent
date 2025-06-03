@@ -29,6 +29,43 @@ IndexAgent uniquely integrates [Sourcebot](https://github.com/sourcebot-dev/sour
 
 Routine maintenance workflows (TODO cleanup, documentation generation, coverage loops) are orchestrated via [Apache Airflow 3.0](https://airflow.apache.org/docs/apache-airflow/stable/index.html) DAGs in the companion [airflow-hub](https://github.com/mprestonsparks/airflow-hub) repository. Sourcebot ensures code is current, Zoekt powers sub-100 ms search across mounted repositories, and the Claude Code CLI applies intelligent patches—together realizing an autonomous, scalable maintenance ecosystem.
 
+## Multi-Repository Integration
+
+IndexAgent operates as part of a comprehensive multi-repository development workspace, providing code indexing and search capabilities across multiple projects:
+
+### Integrated Services
+
+- **IndexAgent** (Port 8081): Core code indexing and search API
+- **Airflow-hub** (Port 8080): Workflow orchestration and DAG management
+- **Market-analysis** (Port 8000): Financial data analysis and trading signals
+- **Infra**: Infrastructure orchestration and deployment automation
+
+### Cross-Service Communication
+
+IndexAgent provides REST API endpoints that integrate seamlessly with other services:
+
+```bash
+# Health check endpoint
+curl http://localhost:8081/health
+
+# Search across indexed repositories
+curl -X POST http://localhost:8081/search \
+  -H "Content-Type: application/json" \
+  -d '{"query": "function analyze", "repositories": ["market-analysis", "airflow-hub"]}'
+
+# Repository indexing status
+curl http://localhost:8081/repositories/status
+```
+
+### Shared Infrastructure
+
+The multi-repository workspace provides:
+
+- **Shared PostgreSQL Database**: Dedicated `indexagent` schema for metadata storage
+- **Vault Integration**: Secure API key and credential management
+- **Volume Mounting**: Unified access to `/repos`, `/data`, `/logs`, and `/secrets`
+- **Service Discovery**: Automatic service registration and health monitoring
+
 ### Airflow Integration
 
 IndexAgent works seamlessly with Preston's [airflow-hub](https://github.com/mprestonsparks/airflow-hub) to schedule maintenance DAGs but can also run standalone or integrate with any Airflow 3.0 deployment.
@@ -61,9 +98,66 @@ IndexAgent works seamlessly with Preston's [airflow-hub](https://github.com/mpre
 
 ### Prerequisites
 
-- [Docker](https://www.docker.com/get-started)  
-- [Docker Compose](https://docs.docker.com/compose/)  
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/)
 - [GNU Make](https://www.gnu.org/software/make/) (optional)
+
+### Development Environment Options
+
+#### Option 1: Multi-Repository Dev Container (Recommended)
+
+For integrated development across all repositories, use the multi-repository Dev Container workspace:
+
+1. **Prerequisites:**
+   - [VSCode](https://code.visualstudio.com/) with [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+   - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+2. **Setup:**
+   ```bash
+   # Ensure all repositories are cloned as siblings
+   ~/Documents/gitRepos/
+     ├── airflow-hub/
+     ├── IndexAgent/
+     ├── market-analysis/
+     └── infra/
+   
+   # Open the parent directory in VSCode
+   code ~/Documents/gitRepos
+   
+   # Select "Reopen in Container" and choose the workspace configuration
+   ```
+
+3. **Benefits:**
+   - Integrated development environment with all repositories
+   - Shared PostgreSQL database with dedicated `indexagent` schema
+   - Vault integration for secure credential management
+   - Port 8081 for IndexAgent API access
+   - Cross-repository communication and testing
+   - Docker-in-Docker capabilities for infrastructure testing
+
+#### Option 2: Standalone Dev Container
+
+For IndexAgent-only development:
+
+1. **Quick Start:**
+   ```bash
+   git clone https://github.com/your-org/IndexAgent.git
+   cd IndexAgent
+   code .
+   # VSCode will prompt to "Reopen in Container" - click it!
+   ```
+
+2. **Benefits:**
+   - Isolated IndexAgent development environment
+   - Pre-configured Python 3.11, Docker, and all development tools
+   - Automatic code formatting, linting, and testing setup
+   - Port forwarding for web services (6070, 3000, 8081)
+
+For detailed setup instructions, see [Dev Container Documentation](docs/devcontainer-setup.md).
+
+#### Option 3: Local Development
+
+For traditional local development setup:
 
 ### Docker Architecture
 
@@ -112,12 +206,23 @@ All containers mount the same code repositories from `$HOME/repos` on the host, 
    ```
 
 6. **Access & advanced usage:**
-   - Open [http://localhost:6070](http://localhost:6070) to explore the Zoekt web UI.  
+   - Open [http://localhost:6070](http://localhost:6070) to explore the Zoekt web UI.
+   - Access IndexAgent API at [http://localhost:8081](http://localhost:8081)
    - For API access and advanced configuration, see the [`docs/`](./docs/) directory.
 
 ## Further Documentation
 
 See the [`docs/`](./docs/) directory for architecture diagrams, ADRs, and advanced configuration options.
+
+### Development Environment
+
+- **[Dev Container Setup](docs/devcontainer-setup.md)**: Complete guide for VSCode Dev Containers with cross-platform support
+- **[Docker Documentation](docs/docker.md)**: Docker implementation details and container architecture
+
+### Project Documentation
+
+- **[Architecture](docs/architecture.md)**: System architecture and component interactions
+- **[Runbook](docs/runbook.md)**: Operational procedures and maintenance tasks
 
 ## License
 
