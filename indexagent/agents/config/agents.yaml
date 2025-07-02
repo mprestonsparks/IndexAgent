@@ -1,0 +1,39 @@
+agent_types:
+  code_analyzer:
+    capabilities: ["syntax_analysis", "pattern_detection", "code_generation"]
+    resource_limits:
+      cpu: "0.5"
+      memory: "512Mi"
+      token_budget: 4096
+    behavior_rules:
+      - "Focus on code quality improvement"
+      - "Prioritize security and performance"
+      - "Maintain backward compatibility"
+  
+  documentation_agent:
+    capabilities: ["documentation_generation", "code_analysis", "markdown_formatting"]
+    resource_limits:
+      cpu: "0.3"
+      memory: "256Mi"
+      token_budget: 2048
+    behavior_rules:
+      - "Generate clear, comprehensive documentation"
+      - "Include examples and usage patterns"
+      - "Maintain documentation currency"
+  
+  test_agent:
+    capabilities: ["test_generation", "coverage_analysis", "quality_assessment"]
+    resource_limits:
+      cpu: "0.4"
+      memory: "384Mi"
+      token_budget: 3072
+    behavior_rules:
+      - "Maximize test coverage"
+      - "Focus on edge cases and error handling"
+      - "Ensure test reliability and maintainability"
+
+default_agent_config:
+  token_budget: 1000
+  diversity_weight: 0.3
+  max_children: 3
+  evolution_threshold: 0.7

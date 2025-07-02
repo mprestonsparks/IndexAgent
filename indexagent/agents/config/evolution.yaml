@@ -1,0 +1,41 @@
+evolution_parameters:
+  # Population settings
+  population_size: 8
+  max_generations: 50
+  min_diversity: 0.3
+  
+  # Genetic algorithm parameters
+  mutation_rate: 0.1
+  crossover_rate: 0.7
+  selection_pressure: 0.8
+  
+  # Economic constraints
+  token_budget_per_agent: 4096
+  budget_allocation_strategy: "merit_based"
+  efficiency_threshold: 0.5
+  
+  # Cellular automata rules
+  ca_rules: [110, 30, 90, 184, 1]
+  ca_neighborhood_size: 3
+  ca_evolution_cycles: 10
+  
+  # Pattern detection
+  pattern_detection:
+    enabled: true
+    min_pattern_length: 3
+    similarity_threshold: 0.8
+    catalog_size_limit: 1000
+  
+  # Gaming detection
+  gaming_detection:
+    enabled: true
+    anomaly_threshold: 2.0
+    suspicious_behavior_window: 10
+    intervention_strategy: "reduce_tokens"
+
+# Environment settings
+environment:
+  log_level: "INFO"
+  metrics_collection: true
+  async_evolution: true
+  parallel_workers: 4
